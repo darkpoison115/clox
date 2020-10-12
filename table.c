@@ -27,17 +27,16 @@ static Entry *findEntry(Entry *entries, int capacity, ObjString *key) {
     Entry *entry = &entries[index];
 
     if (entry->key == NULL) {
-      if (IS_NIL(entry->value)) {
-        // Empty entry.
-        return tombstone != NULL ? tombstone : entry;
-      } else {
-        // We found a tombstone
-        if (tombstone == NULL)
-          tombstone = entry;
-      }
+        if(IS_NIL(entry->value)) {
+            // Empty entry.
+            return tombstone != NULL ? tombstone : entry;
+        } else {
+            // We found a tombstone.
+            if(tombstone == NULL) tombstone = entry;
+        }
     } else if (entry->key == key) {
-      // We found the key.
-      return entry;
+        // We found the key.
+        return entry;
     }
 
     index = (index + 1) % capacity;
@@ -89,7 +88,8 @@ bool tableSet(Table *table, ObjString *key, Value value) {
 
   Entry *entry = findEntry(table->entries, table->capacity, key);
 
-  bool isNewKey = entry->key = NULL;
+  bool isNewKey = entry->key == NULL;
+
   if (isNewKey && IS_NIL(entry->value))
     table->count++;
 
