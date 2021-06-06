@@ -1,0 +1,1 @@
+Existe un bug que no permite mostrar nada en pantalla y a veces crashea el programa
